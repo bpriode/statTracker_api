@@ -14,7 +14,7 @@ router.get('/', passport.authenticate('basic', {session: false}), function(req, 
   res.send('Here is my Stat Tracker API')
 })
 
-//Working!
+
 // Show a list of all activities I am tracking
 router.get('/api/activities', passport.authenticate('basic', {session: false}), function(req, res) {
     Activity.find({})
@@ -26,7 +26,7 @@ router.get('/api/activities', passport.authenticate('basic', {session: false}), 
     })
 })
 
-//Working!!
+
 //Create a new activity for me to track.
 router.post('/api/activities', passport.authenticate('basic', {session: false}), function(req, res) {
     Activity.create({
@@ -38,7 +38,7 @@ router.post('/api/activities', passport.authenticate('basic', {session: false}),
     })
 })
 
-//Working!
+
 //Show information about one activity I am tracking, and give me the data I have recorded for that activity.
 router.get('/api/activities/:id', passport.authenticate('basic', {session: false}), function(req, res) {
     Stat.find({})
@@ -48,7 +48,7 @@ router.get('/api/activities/:id', passport.authenticate('basic', {session: false
 })
 
 
-//Working!!
+
 //Update one activity I am tracking, changing attributes such as name or type. Does not allow for changing tracked data.
 router.put('/api/activities/:id', passport.authenticate('basic', {session: false}), function(req, res) {
     Activity.update({_id: req.params.id}, {
@@ -61,7 +61,7 @@ router.put('/api/activities/:id', passport.authenticate('basic', {session: false
 })
 
 
-//Working!
+
 //Delete one activity I am tracking. This should remove tracked data for that activity as well.
 router.delete('/api/activities/:id', passport.authenticate('basic', {session: false}), function(req, res){
     Activity.deleteOne({_id: req.params.id})
@@ -70,7 +70,7 @@ router.delete('/api/activities/:id', passport.authenticate('basic', {session: fa
     })
 })
 
-//Working!
+
 //Add tracked data for a day. The data sent with this should include the day tracked. You can also override the data for a day already recorded.
 router.post('/api/activities/:id/stats', passport.authenticate('basic', {session: false}), function(req, res){
     Stat.create({
@@ -85,17 +85,11 @@ router.post('/api/activities/:id/stats', passport.authenticate('basic', {session
 
 //Remove tracked data for a day.
 router.delete('/api/stats/:id', passport.authenticate('basic', {session: false}), function(req, res){
-
+  Stat.deleteOne({_id: req.params.id})
+  .then(function(data) {
+    res.send(data)
+  })
 })
-
-
-
-
-
-
-
-
-
 
 
 
@@ -121,13 +115,6 @@ router.delete('/api/stats/:id', passport.authenticate('basic', {session: false})
 // <
 // * Connection #0 to host localhost left intact
 // {"hello":"test"}%
-
-
-
-
-
-
-
 
 
 
