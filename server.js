@@ -34,7 +34,7 @@ app.use(expressValidator());
 
 app.use(morgan('dev'));
 
-app.use(routes);
+app.use('/api', routes);
 
 app.listen(3000, function() {
   console.log('App is running on localhost:3000');
