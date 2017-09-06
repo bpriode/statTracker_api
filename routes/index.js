@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost:27017/statTracker');
 
 //auth to access API
 router.get('/', passport.authenticate('basic', {session: false}), function(req, res) {
-  res.send('Here is my Stat Tracker API')
+  res.status(200).send('Here is my Stat Tracker API')
 })
 
 
@@ -19,10 +19,10 @@ router.get('/', passport.authenticate('basic', {session: false}), function(req, 
 router.get('/activities', passport.authenticate('basic', {session: false}), function(req, res) {
   Activity.find({})
   .then(function(data){
-    res.send(data)
+    res.status(200).send(data)
   })
   .catch(function(err){
-    res.send('No Activities Created')
+    res.status(204).send("No activities found")
   })
 })
 
@@ -34,7 +34,10 @@ router.post('/activities', passport.authenticate('basic', {session: false}), fun
     measurementUnit: req.body.measurementUnit
   })
   .then(function(data){
-    res.send(data)
+    res.status(201).send(data)
+  })
+  .catch(function(err) {
+    res.status(400).send('No Activity Created')
   })
 })
 
@@ -43,7 +46,10 @@ router.post('/activities', passport.authenticate('basic', {session: false}), fun
 router.get('/activities/:id', passport.authenticate('basic', {session: false}), function(req, res) {
   Stat.find({})
   .then(function(data) {
-    res.send(data)
+    res.status(200).send(data)
+  })
+  .catch(function(err) {
+    res.status(400).send("Can't view Information")
   })
 })
 
@@ -56,7 +62,10 @@ router.put('/activities/:id', passport.authenticate('basic', {session: false}), 
     measurementUnit: req.body.measurementUnit
   })
   .then(function(data) {
-    res.send(data)
+    res.status(200).send(data)
+  })
+  .catch(function(err) {
+    res.status(304).send("Data returned has not been modified")
   })
 })
 
@@ -68,7 +77,10 @@ router.delete('/activities/:id', passport.authenticate('basic', {session: false}
   .then(function(deleteStat) {
     Activity.deleteOne({_id: req.params.id})
     .then(function(data) {
-      res.send(data)
+      res.status(200).send(data)
+    })
+    .catch(function(err) {
+      res.status(400).send("Activity not Deleted")
     })
   })
 })
@@ -81,7 +93,10 @@ router.post('/activities/:id/stats', passport.authenticate('basic', {session: fa
     measurement: req.body.measurement
   })
   .then(function(data) {
-    res.send(data)
+    res.status(201).send(data)
+  })
+  .catch(function(err) {
+    res.status(400).send("Stats not Created")
   })
 })
 
@@ -90,7 +105,10 @@ router.post('/activities/:id/stats', passport.authenticate('basic', {session: fa
 router.delete('/stats/:id', passport.authenticate('basic', {session: false}), function(req, res){
   Stat.deleteOne({_id: req.params.id})
   .then(function(data) {
-    res.send(data)
+    res.status(200).send(data)
+  })
+  .catch(function(err) {
+    res.status(400).send("Stats not Deleted")
   })
 })
 
