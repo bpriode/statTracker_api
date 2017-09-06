@@ -3,7 +3,7 @@ mongoose.Promise = require('bluebird');
 const Schema     = mongoose.Schema
 
 const statSchema = new Schema({
-  activityName: {type: String},
+  activityId: {type: String},
   measurement: {type: Number},
   createdAt: {type: Date, default: Date.now}
 
